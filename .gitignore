@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Hasil Build
+dist/
+build/
+
+# File Rahasia
+.env
+.env.*
+node_modules
