@@ -160,6 +160,15 @@ export async function closeLocker(lokerId) {
   await set(ref(db, `/lockers/${lokerId}/command`), "CLOSE");
 }
 
+/** Tutup SEMUA loker — safety net saat logout/idle */
+export async function closeAllLockers() {
+  await Promise.all([
+    set(ref(db, `/lockers/loker_01/command`), "CLOSE"),
+    set(ref(db, `/lockers/loker_02/command`), "CLOSE"),
+    set(ref(db, `/lockers/loker_03/command`), "CLOSE"),
+  ]);
+}
+
 // ============================================================
 //  MASTER BARANG — Inventaris
 // ============================================================

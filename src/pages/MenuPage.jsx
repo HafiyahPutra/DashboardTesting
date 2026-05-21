@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { listenAuthStatus, setAuthStatusIdle } from '../services/firebase';
+import { listenAuthStatus, setAuthStatusIdle, closeAllLockers } from '../services/firebase';
 
 export default function MenuPage() {
   const [authData, setAuthData] = useState(null);
@@ -17,6 +17,7 @@ export default function MenuPage() {
   }, [navigate]);
 
   const handleLogout = async () => {
+    await closeAllLockers();
     await setAuthStatusIdle();
     navigate('/');
   };
