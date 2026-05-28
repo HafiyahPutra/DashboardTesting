@@ -78,7 +78,7 @@ export default function IdlePage() {
       {/* Fixed Bottom Layout */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 w-full px-6">
         {/* Navigation buttons */}
-        <div className="flex justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-3">
           <Link
             to="/simulator"
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"

@@ -39,7 +39,7 @@ export default function ReturnPage() {
   };
 
   return (
-    <div className="min-h-screen p-6 pb-24 relative overflow-hidden">
+    <div className="min-h-screen p-6 pb-48 md:pb-24 relative overflow-hidden">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate('/menu')} className="w-12 h-12 rounded-xl bg-dark-carbon text-polar-white flex items-center justify-center hover:bg-dark-carbon/80 transition-colors border border-dark-carbon">

@@ -48,7 +48,7 @@ export default function MenuPage() {
             onClick={() => navigate('/borrow')}
             className="w-full glass-card glass-card-hover p-6 flex items-center text-left group"
           >
-            <div className="w-12 h-12 rounded-xl bg-amber-glow/15 text-polar-white flex items-center justify-center mr-4 group-hover:bg-amber-glow group-hover:text-midnight-void transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-amber-glow/15 text-polar-white flex items-center justify-center mr-4 group-hover:bg-amber-glow group-hover:text-midnight-void transition-colors shrink-0">
               <OutputIcon />
             </div>
             <div className="flex-1">
@@ -64,7 +64,7 @@ export default function MenuPage() {
             onClick={() => navigate('/return')}
             className="w-full glass-card glass-card-hover p-6 flex items-center text-left group"
           >
-            <div className="w-12 h-12 rounded-xl bg-amber-glow/15 text-polar-white flex items-center justify-center mr-4 group-hover:bg-amber-glow group-hover:text-midnight-void transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-amber-glow/15 text-polar-white flex items-center justify-center mr-4 group-hover:bg-amber-glow group-hover:text-midnight-void transition-colors shrink-0">
               <InputIcon />
             </div>
             <div className="flex-1">

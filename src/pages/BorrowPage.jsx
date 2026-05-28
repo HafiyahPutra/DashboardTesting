@@ -50,7 +50,7 @@ export default function BorrowPage() {
   ];
 
   return (
-    <div className="min-h-screen p-6 pb-24 relative overflow-hidden">
+    <div className="min-h-screen p-6 pb-64 md:pb-24 relative overflow-hidden">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate('/menu')} className="w-12 h-12 rounded-xl bg-dark-carbon text-polar-white flex items-center justify-center hover:bg-dark-carbon/80 transition-colors border border-dark-carbon">
@@ -155,7 +155,7 @@ export default function BorrowPage() {
                   <select 
                     value={durationPreset} 
                     onChange={e => setDurationPreset(e.target.value)}
-                    className="bg-dark-carbon text-polar-white border border-dark-carbon rounded-lg px-2 py-1 text-sm outline-none cursor-pointer"
+                    className="bg-dark-carbon text-polar-white border border-dark-carbon rounded-lg px-2 py-1 text-sm outline-none cursor-pointer w-full md:w-auto"
                   >
                     <option value="1">1 Menit</option>
                     <option value="2">2 Menit</option>
