@@ -14,6 +14,7 @@ import {
   query,
   orderByChild,
   equalTo,
+  remove,
 } from "firebase/database";
 
 // ============================================================
@@ -122,6 +123,20 @@ export function listenAllUsers(callback) {
   return unsubscribe;
 }
 
+/** Menghapus user dari Firebase dan memicu hapus fisik di ESP32 */
+export async function deleteUser(fingerId) {
+  // 1. Kirim perintah DELETE ke antrean Node 0
+  await set(ref(db, '/enrollment_queue/pending'), {
+    status: 'DELETE',
+    finger_id: fingerId,
+    message: 'Menghapus sidik jari dari alat...',
+    updated_at: new Date().toISOString()
+  });
+  
+  // 2. Hapus data profil dari database
+  await remove(ref(db, `/users/${fingerId}`));
+}
+
 // ============================================================
 //  LOCKER — Kontrol Loker
 // ============================================================
@@ -209,6 +224,11 @@ export async function updateBarang(tagId, data) {
 /** Daftarkan barang baru ke sistem (untuk admin) */
 export async function registerBarang(tagId, data) {
   await set(ref(db, `/master_barang/${tagId}`), data);
+}
+
+/** Hapus barang dari sistem (untuk admin) */
+export async function deleteBarang(tagId) {
+  await remove(ref(db, `/master_barang/${tagId}`));
 }
 
 // ============================================================

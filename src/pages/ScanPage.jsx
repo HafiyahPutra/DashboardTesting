@@ -19,7 +19,7 @@ const AUTO_FINISH_SECONDS = 8;
 export default function ScanPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { mode, item, loker } = location.state || {};
+  const { mode, item, loker, duration } = location.state || {};
   
   const [lockerData, setLockerData] = useState(null);
   const [detectedItem, setDetectedItem] = useState(null);
@@ -178,13 +178,19 @@ export default function ScanPage() {
 
     try {
       if (mode === 'borrow' && detectedItem && user) {
+        const pinjamTime = new Date();
+        const finalDuration = duration || 1;
+        const expectedReturnTime = new Date(pinjamTime.getTime() + finalDuration * 60000);
+
         await recordLoan({
           user_name: user,
           item_id: detectedItem.tag_id,
           item_name: detectedItem.nama,
           loker_asal: detectedItem.loker_assignment,
           metode: detectedItem.tipe,
-          timestamp_pinjam: new Date().toISOString(),
+          timestamp_pinjam: pinjamTime.toISOString(),
+          duration_minutes: finalDuration,
+          expected_return_time: expectedReturnTime.toISOString(),
           status: 'active'
         });
         await updateBarangBorrower(detectedItem.tag_id, user, 'dipinjam');
@@ -211,15 +217,10 @@ export default function ScanPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Background glow based on status */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full mix-blend-screen filter blur-[150px] opacity-10 transition-colors duration-1000
-        ${detectedItem ? 'bg-emerald-500' : validationError ? 'bg-red-500' : 'bg-teal-500'}
-      `}></div>
-
       <div className="w-full max-w-md relative z-10 animate-fadeInUp">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center justify-center gap-2 mb-1">
-            <span className={mode === 'borrow' ? 'text-emerald-400' : 'text-teal-400'}>
+          <h1 className="text-2xl font-bold text-polar-white tracking-tight flex items-center justify-center gap-2 mb-1">
+            <span className="text-polar-white">
               {mode === 'borrow' 
                 ? <FileDownloadIcon sx={{ fontSize: 28 }} /> 
                 : <FileUploadIcon sx={{ fontSize: 28 }} />}
@@ -231,28 +232,28 @@ export default function ScanPage() {
 
         {/* Locker Status Card */}
         <div className={`glass-card p-6 mb-6 text-center border-2 transition-all duration-500
-          ${isLockerOpen ? 'border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.2)]' : 'border-gray-800'}
+          ${isLockerOpen ? 'border-amber-glow/50' : 'border-dark-carbon'}
         `}>
           <div className="relative w-24 h-24 mx-auto mb-4">
             {isLockerOpen && (
               <>
-                <div className="absolute inset-0 rounded-full border-2 border-emerald-400/30 animate-ping"></div>
-                <div className="absolute inset-2 rounded-full border-2 border-emerald-400/20 animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                <div className="absolute inset-0 rounded-full border-2 border-amber-glow/30 animate-ping"></div>
+                <div className="absolute inset-2 rounded-full border-2 border-amber-glow/20 animate-ping" style={{ animationDelay: '0.5s' }}></div>
               </>
             )}
             <div className={`relative w-full h-full rounded-full flex items-center justify-center shadow-inner transition-colors
-              ${isLockerOpen ? 'bg-emerald-900/50 text-white' : 'bg-gray-800 text-gray-500'}
+              ${isLockerOpen ? 'bg-amber-glow/10 text-polar-white' : 'bg-dark-carbon text-ash-gray'}
             `}>
               {isLockerOpen 
-                ? <LockOpenIcon sx={{ fontSize: 40, color: '#10B981' }} /> 
-                : <LockIcon sx={{ fontSize: 40, color: '#6B7280' }} />}
+                ? <LockOpenIcon sx={{ fontSize: 40, color: '#F3F3F3' }} /> 
+                : <LockIcon sx={{ fontSize: 40, color: '#949494' }} />}
             </div>
           </div>
           
-          <h2 className={`text-xl font-bold mb-1 ${isLockerOpen ? 'text-emerald-400' : 'text-gray-400'}`}>
+          <h2 className={`text-xl font-bold mb-1 ${isLockerOpen ? 'text-polar-white' : 'text-ash-gray'}`}>
             {isLockerOpen ? 'LOKER TERBUKA' : 'MEMBUKA LOKER...'}
           </h2>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-ash-gray">
             {mode === 'borrow' 
               ? 'Ambil barang & scan tag ke reader' 
               : 'Masukkan barang & scan tag ke reader'}
@@ -260,7 +261,7 @@ export default function ScanPage() {
 
           {/* Timeout indicator — hanya saat belum ada scan */}
           {!detectedItem && (
-            <div className="mt-3 flex items-center justify-center gap-1 text-gray-600 text-xs">
+            <div className="mt-3 flex items-center justify-center gap-1 text-ash-gray/70 text-xs">
               <TimerIcon sx={{ fontSize: 12 }} />
               <span>Auto-tutup dalam {timeoutCountdown}s</span>
             </div>
@@ -271,16 +272,16 @@ export default function ScanPage() {
         <div className="relative">
           {/* Waiting State */}
           {!detectedItem && !validationError && (
-            <div className="glass-card p-6 text-center border border-gray-800 relative overflow-hidden">
-              <div className="absolute left-0 w-full h-0.5 bg-emerald-500/50 animate-scanLine shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div>
+            <div className="glass-card p-6 text-center border border-dark-carbon relative overflow-hidden">
+              <div className="absolute left-0 w-full h-0.5 bg-amber-glow/50 animate-scanLine"></div>
               <div className="mb-3">
-                <SensorsIcon sx={{ fontSize: 32, color: '#14B8A6' }} />
+                <SensorsIcon sx={{ fontSize: 32, color: '#F3F3F3' }} />
               </div>
-              <p className="text-gray-400 font-mono text-sm mb-3">MENUNGGU SENSOR...</p>
+              <p className="text-ash-gray font-mono text-sm mb-3">MENUNGGU SENSOR...</p>
               <div className="flex justify-center gap-2">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                <div className="w-1.5 h-1.5 bg-amber-glow rounded-full animate-pulse"></div>
+                <div className="w-1.5 h-1.5 bg-amber-glow rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-1.5 h-1.5 bg-amber-glow rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
               </div>
             </div>
           )}
@@ -292,28 +293,28 @@ export default function ScanPage() {
                 <WarningAmberIcon sx={{ fontSize: 48, color: '#EF4444' }} />
               </div>
               <h3 className="text-red-400 font-bold mb-1">GAGAL VALIDASI</h3>
-              <p className="text-sm text-gray-300">{validationError}</p>
+              <p className="text-sm text-slate-ui">{validationError}</p>
               <p className="text-xs text-red-400/80 mt-3 border-t border-red-500/30 pt-3">Silakan scan ulang barang yang benar</p>
             </div>
           )}
 
           {/* Success State */}
           {detectedItem && (
-            <div className="glass-card p-6 border-2 border-emerald-500/50 bg-emerald-900/10 animate-fadeInUp">
+            <div className="glass-card p-6 border-2 border-neon-green/30 bg-neon-green/5 animate-fadeInUp">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 border border-emerald-500/30 shrink-0">
-                  <CheckCircleIcon sx={{ fontSize: 28, color: '#10B981' }} />
+                <div className="w-12 h-12 rounded-full bg-neon-green/15 flex items-center justify-center text-neon-green border border-neon-green/30 shrink-0">
+                  <CheckCircleIcon sx={{ fontSize: 28, color: '#00AC5C' }} />
                 </div>
                 <div>
-                  <h3 className="text-emerald-400 font-bold mb-1">Tag Cocok!</h3>
-                  <p className="text-white font-medium">{detectedItem.nama || detectedItem.item_name}</p>
-                  <p className="text-gray-400 text-xs font-mono mt-1">ID: {detectedItem.tag_id || detectedItem.item_id}</p>
+                  <h3 className="text-neon-green font-bold mb-1">Tag Cocok!</h3>
+                  <p className="text-polar-white font-medium">{detectedItem.nama || detectedItem.item_name}</p>
+                  <p className="text-ash-gray text-xs font-mono mt-1">ID: {detectedItem.tag_id || detectedItem.item_id}</p>
                 </div>
               </div>
               {/* Auto-finish countdown untuk return mode */}
               {autoFinishCountdown !== null && autoFinishCountdown > 0 && (
-                <div className="mt-3 pt-3 border-t border-emerald-500/20 text-center">
-                  <p className="text-emerald-400/70 text-xs">Auto-selesai dalam {autoFinishCountdown} detik</p>
+                <div className="mt-3 pt-3 border-t border-neon-green/20 text-center">
+                  <p className="text-neon-green/70 text-xs">Auto-selesai dalam {autoFinishCountdown} detik</p>
                 </div>
               )}
             </div>
@@ -327,7 +328,7 @@ export default function ScanPage() {
             <button
               onClick={handleFinish}
               disabled={loading}
-              className="w-full btn-primary py-4 shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+              className="w-full btn-primary py-4"
             >
               {loading ? 'MEMPROSES...' : 'SELESAI & TUTUP LOKER →'}
             </button>

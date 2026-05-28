@@ -238,13 +238,13 @@ export default function SimulatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6 text-white font-sans">
+    <div className="min-h-screen bg-midnight-void p-6 text-polar-white font-sans">
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-emerald-400 flex items-center gap-2">
-            <BuildIcon sx={{ fontSize: 32 }} /> Hardware Simulator
+          <h1 className="text-3xl font-bold text-polar-white flex items-center gap-2">
+            <BuildIcon sx={{ fontSize: 32, color: '#F3F3F3' }} /> Hardware Simulator
           </h1>
-          <p className="text-gray-400 mt-2">
+          <p className="text-ash-gray mt-2">
             Gunakan panel ini untuk mensimulasikan aksi perangkat keras (fingerprint & RFID/Barcode) 
             tanpa menggunakan mikrokontroler fisik.
           </p>
@@ -252,42 +252,42 @@ export default function SimulatorPage() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* FINGERPRINT SIMULATOR */}
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-              <PanToolIcon sx={{ fontSize: 24 }} /> Node 0 (Fingerprint)
+          <div className="bg-deep-space p-6 rounded-xl border border-dark-carbon">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-polar-white">
+              <PanToolIcon sx={{ fontSize: 24, color: '#F3F3F3' }} /> Node 0 (Fingerprint)
             </h2>
             
-            <div className="bg-gray-900 p-3 rounded-lg mb-4 text-xs font-mono text-gray-400">
-              [Status DB] /auth_system: <span className="text-emerald-400">{authStatus?.status || 'null'}</span>
+            <div className="bg-midnight-void p-3 rounded-lg mb-4 text-xs font-mono text-ash-gray">
+              [Status DB] /auth_system: <span className="text-polar-white">{authStatus?.status || 'null'}</span>
               <br />
-              [Status DB] /enrollment: <span className="text-emerald-400">{enrollQueue?.status || 'null'}</span>
+              [Status DB] /enrollment: <span className="text-polar-white">{enrollQueue?.status || 'null'}</span>
             </div>
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Simulasi Scan Jari</h3>
+                <h3 className="text-sm font-semibold text-ash-gray uppercase mb-2">Simulasi Scan Jari</h3>
                 <div className="grid grid-cols-2 gap-2">
-                  <button onClick={simulateAuthSuccess} className="bg-emerald-600 hover:bg-emerald-500 py-2 rounded-lg font-medium text-sm">Scan Dikenali (AUTHORIZED)</button>
+                  <button onClick={simulateAuthSuccess} className="bg-dark-carbon hover:bg-dark-carbon/50 py-2 rounded-lg font-medium text-sm text-polar-white">Scan Dikenali (AUTHORIZED)</button>
                   <button onClick={simulateAuthUnknown} className="bg-red-600 hover:bg-red-500 py-2 rounded-lg font-medium text-sm">Scan Gagal (UNKNOWN)</button>
-                  <button onClick={simulateAuthIdle} className="bg-gray-700 hover:bg-gray-600 py-2 rounded-lg font-medium col-span-2 text-sm">Reset ke IDLE (Lock Semua Loker)</button>
+                  <button onClick={simulateAuthIdle} className="bg-dark-carbon hover:bg-dark-carbon/50 py-2 rounded-lg font-medium col-span-2 text-sm text-polar-white">Reset ke IDLE (Lock Semua Loker)</button>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-gray-700">
-                <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Simulasi Pendaftaran (Enrollment)</h3>
-                <p className="text-xs text-gray-500 mb-3">Untuk menguji pendaftaran, buka <strong>/register</strong> di tab lain, isi form, lalu klik tombol di bawah ini.</p>
+              <div className="pt-4 border-t border-dark-carbon">
+                <h3 className="text-sm font-semibold text-ash-gray uppercase mb-2">Simulasi Pendaftaran (Enrollment)</h3>
+                <p className="text-xs text-ash-gray mb-3">Untuk menguji pendaftaran, buka <strong>/register</strong> di tab lain, isi form, lalu klik tombol di bawah ini.</p>
                 <div className="grid grid-cols-2 gap-2">
                   <button 
                     onClick={simulateEnrollmentSequence} 
                     disabled={!enrollQueue || enrollQueue.status !== 'WAITING'}
-                    className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed py-2 rounded-lg font-medium text-sm"
+                    className="bg-dark-carbon hover:bg-dark-carbon/50 disabled:opacity-50 disabled:cursor-not-allowed py-2 rounded-lg font-medium text-sm text-polar-white"
                   >
                     Simulasi Berhasil
                   </button>
                   <button 
                     onClick={simulateEnrollmentFail}
                     disabled={!enrollQueue || enrollQueue.status !== 'WAITING'}
-                    className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 disabled:cursor-not-allowed py-2 rounded-lg font-medium text-sm"
+                    className="bg-amber-glow hover:bg-amber-glow/80 text-midnight-void disabled:opacity-50 disabled:cursor-not-allowed py-2 rounded-lg font-medium text-sm"
                   >
                     Simulasi Gagal
                   </button>
@@ -297,14 +297,14 @@ export default function SimulatorPage() {
           </div>
 
           {/* LOKER & RFID SIMULATOR */}
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-              <LocalOfferIcon sx={{ fontSize: 24 }} /> Node 1, 2, 3 (Loker & Tag)
+          <div className="bg-deep-space p-6 rounded-xl border border-dark-carbon">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-polar-white">
+              <LocalOfferIcon sx={{ fontSize: 24, color: '#F3F3F3' }} /> Node 1, 2, 3 (Loker & Tag)
             </h2>
 
             {/* Loker Status Panel */}
             <div className="mb-4">
-              <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Status Loker Realtime</h3>
+              <h3 className="text-sm font-semibold text-ash-gray uppercase mb-2">Status Loker Realtime</h3>
               <div className="grid grid-cols-3 gap-2">
                 {LOKER_IDS.map((lokerId) => {
                   const data = lockerStatuses[lokerId];
@@ -312,20 +312,20 @@ export default function SimulatorPage() {
                   return (
                     <div key={lokerId} className={`p-3 rounded-lg border text-center transition-all ${
                       isOpen 
-                        ? 'bg-emerald-900/30 border-emerald-500/50' 
-                        : 'bg-gray-900 border-gray-700'
+                        ? 'bg-amber-glow/10 border-amber-glow/30' 
+                        : 'bg-midnight-void border-dark-carbon'
                     }`}>
                       <div className="mb-1">
                         {isOpen 
-                          ? <LockOpenIcon sx={{ fontSize: 20, color: '#10B981' }} />
-                          : <LockIcon sx={{ fontSize: 20, color: '#6B7280' }} />
+                          ? <LockOpenIcon sx={{ fontSize: 20, color: '#F3F3F3' }} />
+                          : <LockIcon sx={{ fontSize: 20, color: '#949494' }} />
                         }
                       </div>
-                      <p className="text-xs font-bold text-white">{lokerId.replace('_', ' ').toUpperCase()}</p>
-                      <p className={`text-[10px] font-mono ${isOpen ? 'text-emerald-400' : 'text-gray-500'}`}>
+                      <p className="text-xs font-bold text-polar-white">{lokerId.replace('_', ' ').toUpperCase()}</p>
+                      <p className={`text-[10px] font-mono ${isOpen ? 'text-polar-white' : 'text-ash-gray'}`}>
                         {data?.status || 'LOCKED'}
                       </p>
-                      <p className="text-[10px] font-mono text-gray-600">
+                      <p className="text-[10px] font-mono text-ash-gray/70">
                         cmd: {data?.command || '-'}
                       </p>
                       {/* Force toggle button */}
@@ -333,8 +333,8 @@ export default function SimulatorPage() {
                         onClick={() => forceLockerState(lokerId, isOpen ? 'CLOSE' : 'OPEN')}
                         className={`mt-1 w-full text-[10px] py-1 rounded font-medium ${
                           isOpen 
-                            ? 'bg-red-600/80 hover:bg-red-500' 
-                            : 'bg-emerald-600/80 hover:bg-emerald-500'
+                            ? 'bg-red-600/80 hover:bg-red-500 text-polar-white' 
+                            : 'bg-dark-carbon hover:bg-dark-carbon/50 text-polar-white'
                         }`}
                       >
                         {isOpen ? 'LOCK' : 'UNLOCK'}
@@ -351,66 +351,66 @@ export default function SimulatorPage() {
                   id="autoRespond"
                   checked={autoRespondEnabled}
                   onChange={(e) => setAutoRespondEnabled(e.target.checked)}
-                  className="w-4 h-4 accent-emerald-500"
+                  className="w-4 h-4 accent-amber-glow"
                 />
-                <label htmlFor="autoRespond" className="text-xs text-gray-400">
+                <label htmlFor="autoRespond" className="text-xs text-ash-gray">
                   Auto-respond: Otomatis set status saat command berubah (simulasi firmware)
                 </label>
               </div>
             </div>
 
             {/* Tag UID Input */}
-            <div className="mb-4 pt-4 border-t border-gray-700">
-              <label className="block text-sm font-semibold text-gray-400 uppercase mb-1">UID Tag / Barcode yang disimulasikan</label>
+            <div className="mb-4 pt-4 border-t border-dark-carbon">
+              <label className="block text-sm font-semibold text-ash-gray uppercase mb-1">UID Tag / Barcode yang disimulasikan</label>
               <input 
                 type="text" 
                 value={simulatedUid}
                 onChange={(e) => setSimulatedUid(e.target.value)}
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white font-mono focus:border-emerald-500 focus:outline-none"
+                className="w-full bg-midnight-void border border-dark-carbon rounded-lg p-2 text-polar-white font-mono focus:border-amber-glow focus:outline-none"
               />
-              <p className="text-xs text-gray-500 mt-1">Ubah nilai ini untuk mensimulasikan scan barang yang salah/benar pada halaman Peminjaman atau Pengembalian.</p>
+              <p className="text-xs text-ash-gray mt-1">Ubah nilai ini untuk mensimulasikan scan barang yang salah/benar pada halaman Peminjaman atau Pengembalian.</p>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-gray-400 uppercase mb-1">Simulasi Scan di Reader</h3>
+              <h3 className="text-sm font-semibold text-ash-gray uppercase mb-1">Simulasi Scan di Reader</h3>
               <button 
                 onClick={() => simulateScanTag('loker_01')} 
-                className="w-full bg-gray-700 hover:bg-gray-600 border border-gray-600 py-3 rounded-lg font-medium flex justify-between px-4"
+                className="w-full bg-dark-carbon hover:bg-dark-carbon/50 border border-dark-carbon py-3 rounded-lg font-medium flex justify-between px-4 text-polar-white"
               >
                 <span>Tembak Tag ke Loker 1</span>
-                <span className="text-xs bg-gray-800 px-2 py-1 rounded text-gray-400">RFID LF</span>
+                <span className="text-xs bg-midnight-void px-2 py-1 rounded text-ash-gray">RFID LF</span>
               </button>
               
               <button 
                 onClick={() => simulateScanTag('loker_02')} 
-                className="w-full bg-gray-700 hover:bg-gray-600 border border-gray-600 py-3 rounded-lg font-medium flex justify-between px-4"
+                className="w-full bg-dark-carbon hover:bg-dark-carbon/50 border border-dark-carbon py-3 rounded-lg font-medium flex justify-between px-4 text-polar-white"
               >
                 <span>Tembak Tag ke Loker 2</span>
-                <span className="text-xs bg-gray-800 px-2 py-1 rounded text-gray-400">RFID HF</span>
+                <span className="text-xs bg-midnight-void px-2 py-1 rounded text-ash-gray">RFID HF</span>
               </button>
               
               <button 
                 onClick={() => simulateScanTag('loker_03')} 
-                className="w-full bg-gray-700 hover:bg-gray-600 border border-gray-600 py-3 rounded-lg font-medium flex justify-between px-4"
+                className="w-full bg-dark-carbon hover:bg-dark-carbon/50 border border-dark-carbon py-3 rounded-lg font-medium flex justify-between px-4 text-polar-white"
               >
                 <span>Tembak Barcode ke Loker 3</span>
-                <span className="text-xs bg-gray-800 px-2 py-1 rounded text-gray-400">Barcode</span>
+                <span className="text-xs bg-midnight-void px-2 py-1 rounded text-ash-gray">Barcode</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* Activity Log */}
-        <div className="mt-6 bg-gray-800 p-6 rounded-xl border border-gray-700">
-          <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <div className="mt-6 bg-deep-space p-6 rounded-xl border border-dark-carbon">
+          <h2 className="text-lg font-bold text-polar-white mb-3 flex items-center gap-2">
             📋 Log Aktivitas Simulator
           </h2>
-          <div className="bg-gray-950 rounded-lg p-4 max-h-[200px] overflow-y-auto font-mono text-xs">
+          <div className="bg-midnight-void rounded-lg p-4 max-h-[200px] overflow-y-auto font-mono text-xs">
             {logs.length === 0 ? (
-              <p className="text-gray-600">Belum ada aktivitas. Klik tombol di atas untuk memulai simulasi.</p>
+              <p className="text-ash-gray/70">Belum ada aktivitas. Klik tombol di atas untuk memulai simulasi.</p>
             ) : (
               logs.map((log, i) => (
-                <p key={i} className={`${i === 0 ? 'textemerald-400' : 'text-gray-500'} mb-1`}>
+                <p key={i} className={`${i === 0 ? 'text-polar-white' : 'text-ash-gray'} mb-1`}>
                   {log}
                 </p>
               ))
@@ -419,7 +419,7 @@ export default function SimulatorPage() {
         </div>
 
         <div className="mt-8 text-center">
-          <a href="/" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline">
+          <a href="/" target="_blank" rel="noreferrer" className="text-polar-white hover:underline">
             Buka Web App di Tab Baru ↗
           </a>
         </div>

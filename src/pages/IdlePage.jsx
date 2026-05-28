@@ -1,16 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { listenAuthStatus } from '../services/firebase';
+import { listenAuthStatus, listenAllLockers } from '../services/firebase';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import BuildIcon from '@mui/icons-material/Build';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import SettingsInputHdmiIcon from '@mui/icons-material/SettingsInputHdmi';
+import CloseIcon from '@mui/icons-material/Close';
+
+const NodeBadge = ({ name, type, isOnline }) => (
+  <div className="flex items-center justify-between gap-4 px-4 py-3 rounded-xl bg-midnight-void border border-dark-carbon w-full">
+    <div className="flex flex-col leading-none">
+      <span className="text-sm font-bold text-polar-white mb-1">{name}</span>
+      <span className="text-[10px] text-ash-gray">{type}</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="text-[10px] font-bold text-ash-gray uppercase tracking-wider">{isOnline ? 'Terhubung' : 'Terputus'}</span>
+      <div className={`w-2.5 h-2.5 rounded-full ${isOnline ? 'bg-neon-green shadow-[0_0_8px_#00AC5C]' : 'bg-red-500 shadow-[0_0_8px_#EF4444]'}`}></div>
+    </div>
+  </div>
+);
 
 export default function IdlePage() {
   const [authData, setAuthData] = useState(null);
+  const [lockersData, setLockersData] = useState({});
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsub = listenAuthStatus((data) => {
+    const unsubAuth = listenAuthStatus((data) => {
       setAuthData(data);
       if (data?.status === 'AUTHORIZED') {
         navigate('/menu');
@@ -18,57 +35,100 @@ export default function IdlePage() {
         navigate('/unknown');
       }
     });
-    return () => unsub();
+    
+    const unsubLockers = listenAllLockers((data) => {
+      setLockersData(data || {});
+    });
+
+    return () => {
+      unsubAuth();
+      unsubLockers();
+    };
   }, [navigate]);
 
   return (
     <div className="relative flex items-center justify-center min-h-screen p-6 overflow-hidden">
-      {/* Background decorations - Updated with new palette */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-teal-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
-
-      <div className="relative z-10 w-full max-w-md p-10 text-center glass-card animate-fadeInUp">
+      <div className="relative z-10 w-full max-w-md p-10 text-center glass-card animate-fadeInUp mb-20">
         <div className="relative w-32 h-32 mx-auto mb-8 animate-float">
-          <div className="absolute inset-0 border-4 rounded-full border-emerald-500 opacity-20 animate-pulse-ring"></div>
-          <div className="absolute border-4 border-teal-500 rounded-full inset-2 opacity-30 animate-pulse-ring" style={{ animationDelay: '0.5s' }}></div>
-          <div className="relative w-full h-full bg-gray-900 rounded-full flex items-center justify-center text-6xl shadow-[0_0_30px_rgba(16,185,129,0.3)] border border-gray-700">
-            <FingerprintIcon sx={{ fontSize: 60, color: '#10B981' }} />
+          <div className="absolute inset-0 border-4 rounded-full border-dark-carbon opacity-50 animate-pulse-ring"></div>
+          <div className="absolute border-4 border-dark-carbon rounded-full inset-2 opacity-30 animate-pulse-ring" style={{ animationDelay: '0.5s' }}></div>
+          <div className="relative w-full h-full bg-deep-space rounded-full flex items-center justify-center text-6xl border border-dark-carbon">
+            <FingerprintIcon sx={{ fontSize: 60, color: '#F3F3F3' }} />
           </div>
         </div>
 
-        <h1 className="mb-4 text-3xl font-bold tracking-tight gradient-text">IoT INVENTORY</h1>
-        <p className="mb-8 font-medium text-gray-400">Tempelkan jari Anda pada sensor untuk memulai sesi</p>
+        <h1 className="mb-4 text-3xl font-bold tracking-tight text-polar-white">IoT INVENTORY</h1>
+        <p className="mb-8 font-medium text-ash-gray">Tempelkan jari Anda pada sensor untuk memulai sesi</p>
 
         <div className="flex justify-center gap-3 mb-8">
-          <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-          <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-          <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          <div className="w-2.5 h-2.5 bg-polar-white rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+          <div className="w-2.5 h-2.5 bg-polar-white rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+          <div className="w-2.5 h-2.5 bg-polar-white rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
         </div>
 
-        <div className="p-4 border border-gray-800 bg-gray-900/50 rounded-xl">
+        <div className="p-4 border border-dark-carbon bg-deep-space/50 rounded-xl">
           <div className="flex items-center justify-center gap-2 mb-1">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-            <p className="text-sm font-medium text-gray-300">Menunggu autentikasi...</p>
+            <div className="w-2 h-2 rounded-full bg-polar-white animate-pulse"></div>
+            <p className="text-sm font-medium text-slate-ui">Menunggu autentikasi...</p>
           </div>
-          <p className="font-mono text-xs text-gray-500">Firebase: /auth_system/status = {authData?.status || 'IDLE'}</p>
+          <p className="font-mono text-xs text-ash-gray">Firebase: /auth_system/status = {authData?.status || 'IDLE'}</p>
         </div>
       </div>
 
-      {/* Navigation buttons — fixed bottom */}
-      <div className="fixed left-0 z-20 flex justify-center w-full gap-3 bottom-6">
-        <Link
-          to="/simulator"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/80 backdrop-blur-md border border-gray-700 text-gray-400 hover:text-emerald-400 hover:border-emerald-500/50 transition-all text-sm font-medium shadow-lg"
-        >
-          <BuildIcon sx={{ fontSize: 18 }} /> Simulator
-        </Link>
-        <Link
-          to="/admin"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/80 backdrop-blur-md border border-gray-700 text-gray-400 hover:text-amber-400 hover:border-amber-500/50 transition-all text-sm font-medium shadow-lg"
-        >
-          <AdminPanelSettingsIcon sx={{ fontSize: 18 }} /> Admin
-        </Link>
+      {/* Fixed Bottom Layout */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 w-full px-6">
+        {/* Navigation buttons */}
+        <div className="flex justify-center gap-3">
+          <Link
+            to="/simulator"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"
+          >
+            <BuildIcon sx={{ fontSize: 16 }} /> Simulator
+          </Link>
+          <Link
+            to="/admin"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"
+          >
+            <AdminPanelSettingsIcon sx={{ fontSize: 16 }} /> Admin
+          </Link>
+          <button
+            onClick={() => setShowDiagnostics(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"
+          >
+            <SettingsInputHdmiIcon sx={{ fontSize: 16 }} /> Diagnostics
+          </button>
+        </div>
       </div>
+
+      {/* Modal Diagnostics */}
+      {showDiagnostics && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-void/80 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-sm glass-card border border-dark-carbon p-6 shadow-2xl animate-fadeInUp">
+            <div className="flex justify-between items-center mb-6 border-b border-dark-carbon pb-4">
+              <h2 className="text-lg font-bold text-polar-white flex items-center gap-2">
+                <SettingsInputHdmiIcon sx={{ fontSize: 20 }} /> Node Diagnostics
+              </h2>
+              <button 
+                onClick={() => setShowDiagnostics(false)}
+                className="text-ash-gray hover:text-polar-white bg-dark-carbon p-1 rounded-lg transition-colors"
+              >
+                <CloseIcon sx={{ fontSize: 20 }} />
+              </button>
+            </div>
+            
+            <div className="space-y-3">
+              <NodeBadge name="Node 0" type="Fingerprint" isOnline={!!authData} />
+              <NodeBadge name="Node 1" type="RFID LF" isOnline={!!lockersData?.loker_01} />
+              <NodeBadge name="Node 2" type="RFID HF" isOnline={!!lockersData?.loker_02} />
+              <NodeBadge name="Node 3" type="Barcode" isOnline={!!lockersData?.loker_03} />
+            </div>
+
+            <div className="mt-6 text-center text-[10px] text-ash-gray/70">
+              <p>Membaca data persisten dari Firebase Realtime Database.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
