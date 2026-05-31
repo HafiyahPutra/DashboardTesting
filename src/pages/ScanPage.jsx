@@ -12,7 +12,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 // Timeout loker terbuka tanpa scan (dalam detik)
-const LOCKER_TIMEOUT_SECONDS = 90;
+const LOCKER_TIMEOUT_SECONDS = 300; // 5 menit — sinkron dengan LOCKER_OPEN_MS di hardware
 // Auto-finish setelah scan berhasil di mode return (dalam detik)
 const AUTO_FINISH_SECONDS = 8;
 
