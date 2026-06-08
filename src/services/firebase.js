@@ -31,7 +31,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
+export const db  = getDatabase(app);
 
 // ============================================================
 //  AUTH SYSTEM — Node 0 Fingerprint
@@ -135,6 +135,11 @@ export async function deleteUser(fingerId) {
   
   // 2. Hapus data profil dari database
   await remove(ref(db, `/users/${fingerId}`));
+}
+
+/** Update data profil pengguna (Nama, NIM, dll) tanpa ganti fingerprint */
+export async function updateUser(fingerId, data) {
+  await update(ref(db, `/users/${fingerId}`), data);
 }
 
 // ============================================================

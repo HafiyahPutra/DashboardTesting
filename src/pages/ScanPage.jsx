@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { listenLockerFull, recordLoan, updateBarangBorrower, listenAuthStatus, updateLoanReturn, closeLocker } from '../services/firebase';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import LockIcon from '@mui/icons-material/Lock';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SensorsIcon from '@mui/icons-material/Sensors';
-import TimerIcon from '@mui/icons-material/Timer';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
+import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
+import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
+import LockRoundedIcon from '@mui/icons-material/LockRounded';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import SensorsRoundedIcon from '@mui/icons-material/SensorsRounded';
+import TimerRoundedIcon from '@mui/icons-material/TimerRounded';
+import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 // Timeout loker terbuka tanpa scan (dalam detik)
 const LOCKER_TIMEOUT_SECONDS = 300; // 5 menit — sinkron dengan LOCKER_OPEN_MS di hardware
@@ -222,8 +223,8 @@ export default function ScanPage() {
           <h1 className="text-2xl font-bold text-polar-white tracking-tight flex items-center justify-center gap-2 mb-1">
             <span className="text-polar-white">
               {mode === 'borrow' 
-                ? <FileDownloadIcon sx={{ fontSize: 28 }} /> 
-                : <FileUploadIcon sx={{ fontSize: 28 }} />}
+                ? <FileDownloadRoundedIcon sx={{ fontSize: 28 }} /> 
+                : <FileUploadRoundedIcon sx={{ fontSize: 28 }} />}
             </span> 
             {mode === 'borrow' ? 'PEMINJAMAN' : 'PENGEMBALIAN'}
           </h1>
@@ -245,8 +246,8 @@ export default function ScanPage() {
               ${isLockerOpen ? 'bg-amber-glow/10 text-polar-white' : 'bg-dark-carbon text-ash-gray'}
             `}>
               {isLockerOpen 
-                ? <LockOpenIcon sx={{ fontSize: 40, color: '#F3F3F3' }} /> 
-                : <LockIcon sx={{ fontSize: 40, color: '#949494' }} />}
+                ? <LockOpenRoundedIcon sx={{ fontSize: 40, color: 'inherit' }} /> 
+                : <LockRoundedIcon sx={{ fontSize: 40, color: 'inherit' }} />}
             </div>
           </div>
           
@@ -262,7 +263,7 @@ export default function ScanPage() {
           {/* Timeout indicator — hanya saat belum ada scan */}
           {!detectedItem && (
             <div className="mt-3 flex items-center justify-center gap-1 text-ash-gray/70 text-xs">
-              <TimerIcon sx={{ fontSize: 12 }} />
+              <TimerRoundedIcon sx={{ fontSize: 12 }} />
               <span>Auto-tutup dalam {timeoutCountdown}s</span>
             </div>
           )}
@@ -275,7 +276,7 @@ export default function ScanPage() {
             <div className="glass-card p-6 text-center border border-dark-carbon relative overflow-hidden">
               <div className="absolute left-0 w-full h-0.5 bg-amber-glow/50 animate-scanLine"></div>
               <div className="mb-3">
-                <SensorsIcon sx={{ fontSize: 32, color: '#F3F3F3' }} />
+                <SensorsRoundedIcon sx={{ fontSize: 32, color: 'inherit' }} />
               </div>
               <p className="text-ash-gray font-mono text-sm mb-3">MENUNGGU SENSOR...</p>
               <div className="flex justify-center gap-2">
@@ -290,7 +291,7 @@ export default function ScanPage() {
           {validationError && !detectedItem && (
             <div className="glass-card p-6 text-center border-2 border-red-500/50 bg-red-900/20 animate-shake">
               <div className="mb-2">
-                <WarningAmberIcon sx={{ fontSize: 48, color: '#EF4444' }} />
+                <WarningAmberRoundedIcon sx={{ fontSize: 48, color: '#EF4444' }} />
               </div>
               <h3 className="text-red-400 font-bold mb-1">GAGAL VALIDASI</h3>
               <p className="text-sm text-slate-ui">{validationError}</p>
@@ -303,7 +304,7 @@ export default function ScanPage() {
             <div className="glass-card p-6 border-2 border-neon-green/30 bg-neon-green/5 animate-fadeInUp">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-neon-green/15 flex items-center justify-center text-neon-green border border-neon-green/30 shrink-0">
-                  <CheckCircleIcon sx={{ fontSize: 28, color: '#00AC5C' }} />
+                  <CheckCircleRoundedIcon sx={{ fontSize: 28, color: '#00AC5C' }} />
                 </div>
                 <div>
                   <h3 className="text-neon-green font-bold mb-1">Tag Cocok!</h3>
@@ -330,7 +331,7 @@ export default function ScanPage() {
               disabled={loading}
               className="w-full btn-primary py-4"
             >
-              {loading ? 'MEMPROSES...' : 'SELESAI & TUTUP LOKER →'}
+              {loading ? 'MEMPROSES...' : <span className="flex items-center justify-center gap-2">SELESAI & TUTUP LOKER <ArrowForwardRoundedIcon sx={{ fontSize: 18 }} /></span>}
             </button>
           </div>
 
@@ -340,7 +341,7 @@ export default function ScanPage() {
             disabled={loading}
             className="w-full btn-ghost py-3 flex items-center justify-center gap-2 text-sm"
           >
-            <ChevronLeftIcon sx={{ fontSize: 18 }} /> Batal & Kembali ke Menu
+            <ChevronLeftRoundedIcon sx={{ fontSize: 18 }} /> Batal & Kembali ke Menu
           </button>
         </div>
       </div>

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { listenLoanRecords, openLocker, listenAuthStatus } from '../services/firebase';
-import InputIcon from '@mui/icons-material/Input';
-import InfoIcon from '@mui/icons-material/Info';
+import InputRoundedIcon from '@mui/icons-material/InputRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 export default function ReturnPage() {
   const [loans, setLoans] = useState([]);
@@ -43,11 +45,11 @@ export default function ReturnPage() {
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate('/menu')} className="w-12 h-12 rounded-xl bg-dark-carbon text-polar-white flex items-center justify-center hover:bg-dark-carbon/80 transition-colors border border-dark-carbon">
-            ←
+            <ArrowBackRoundedIcon sx={{ fontSize: 24 }} />
           </button>
           <div>
             <h1 className="text-2xl font-bold text-polar-white tracking-tight flex items-center gap-2">
-              <span className="text-polar-white flex items-center"><InputIcon fontSize="large" /></span> KEMBALIKAN BARANG
+              <span className="text-polar-white flex items-center"><InputRoundedIcon fontSize="large" /></span> KEMBALIKAN BARANG
             </h1>
             <p className="text-ash-gray text-sm">Pilih barang yang ingin Anda kembalikan</p>
           </div>
@@ -120,7 +122,7 @@ export default function ReturnPage() {
           <div className="max-w-2xl mx-auto glass-card border-t border-amber-glow/30 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] p-4">
             
             <div className="bg-deep-space rounded-lg p-3 mb-4 flex items-start gap-3 border border-dark-carbon">
-              <div className="text-polar-white mt-0.5"><InfoIcon /></div>
+              <div className="text-polar-white mt-0.5"><InfoRoundedIcon /></div>
               <div>
                 <p className="text-slate-ui text-sm">
                   Barang <strong className="text-polar-white">{selected?.item_name}</strong> harus dikembalikan ke:
@@ -137,7 +139,7 @@ export default function ReturnPage() {
                 disabled={loading}
                 className="btn-success w-full sm:w-auto"
               >
-                {loading ? 'Membuka...' : 'Buka Loker & Kembalikan →'}
+                {loading ? 'Membuka...' : <span className="flex items-center gap-2">Buka Loker & Kembalikan <ArrowForwardRoundedIcon sx={{ fontSize: 18 }} /></span>}
               </button>
             </div>
           </div>

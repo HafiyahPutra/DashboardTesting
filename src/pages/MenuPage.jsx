@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { listenAuthStatus, setAuthStatusIdle, closeAllLockers } from '../services/firebase';
-import OutputIcon from '@mui/icons-material/Output';
-import InputIcon from '@mui/icons-material/Input';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import OutputRoundedIcon from '@mui/icons-material/OutputRounded';
+import InputRoundedIcon from '@mui/icons-material/InputRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 export default function MenuPage() {
   const [authData, setAuthData] = useState(null);
@@ -49,14 +49,14 @@ export default function MenuPage() {
             className="w-full glass-card glass-card-hover p-6 flex items-center text-left group"
           >
             <div className="w-12 h-12 rounded-xl bg-amber-glow/15 text-polar-white flex items-center justify-center mr-4 group-hover:bg-amber-glow group-hover:text-midnight-void transition-colors shrink-0">
-              <OutputIcon />
+              <OutputRoundedIcon />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold text-polar-white mb-1 group-hover:text-polar-white transition-colors">PINJAM BARANG</h3>
               <p className="text-ash-gray text-sm">Ambil barang dari loker inventaris</p>
             </div>
             <div className="text-ash-gray/70 group-hover:text-polar-white transition-colors">
-              <ArrowForwardIcon fontSize="small" />
+              <ArrowForwardRoundedIcon fontSize="small" />
             </div>
           </button>
 
@@ -65,14 +65,14 @@ export default function MenuPage() {
             className="w-full glass-card glass-card-hover p-6 flex items-center text-left group"
           >
             <div className="w-12 h-12 rounded-xl bg-amber-glow/15 text-polar-white flex items-center justify-center mr-4 group-hover:bg-amber-glow group-hover:text-midnight-void transition-colors shrink-0">
-              <InputIcon />
+              <InputRoundedIcon />
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold text-polar-white mb-1 group-hover:text-polar-white transition-colors">KEMBALIKAN BARANG</h3>
               <p className="text-ash-gray text-sm">Kembalikan barang yang sedang dipinjam</p>
             </div>
             <div className="text-ash-gray/70 group-hover:text-polar-white transition-colors">
-              <ArrowForwardIcon fontSize="small" />
+              <ArrowForwardRoundedIcon fontSize="small" />
             </div>
           </button>
 
@@ -80,7 +80,7 @@ export default function MenuPage() {
             onClick={handleLogout}
             className="w-full glass-card glass-card-hover p-4 flex items-center justify-center text-ash-gray hover:text-red-400 hover:border-red-500/30 transition-colors"
           >
-            <span className="mr-2 flex items-center"><LogoutIcon fontSize="small" /></span> LOGOUT
+            <span className="mr-2 flex items-center"><LogoutRoundedIcon fontSize="small" /></span> LOGOUT
           </button>
         </div>
       </div>

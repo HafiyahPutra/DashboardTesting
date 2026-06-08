@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setAuthStatusIdle } from '../services/firebase';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import TimerIcon from '@mui/icons-material/Timer';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import TimerRoundedIcon from '@mui/icons-material/TimerRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 export default function UnknownFingerprintPage() {
   const navigate = useNavigate();
@@ -37,11 +38,15 @@ export default function UnknownFingerprintPage() {
     navigate('/');
   };
 
+  const handleRegister = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
       <div className="glass-card max-w-md w-full p-10 text-center relative z-10 animate-fadeInUp">
         <div className="w-24 h-24 mx-auto mb-6 bg-red-500/10 rounded-full flex items-center justify-center border border-red-500/30">
-          <WarningAmberIcon sx={{ fontSize: 48, color: '#EF4444' }} />
+          <WarningAmberRoundedIcon sx={{ fontSize: 48, color: '#EF4444' }} />
         </div>
         
         <h1 className="text-2xl font-bold text-polar-white mb-4 tracking-tight">SIDIK JARI TIDAK DIKENALI</h1>
@@ -52,11 +57,8 @@ export default function UnknownFingerprintPage() {
         </div>
 
         <div className="space-y-3">
-          <button
-            onClick={() => navigate('/register')}
-            className="w-full btn-primary"
-          >
-            DAFTAR PENGGUNA BARU →
+          <button onClick={handleRegister} className="w-full btn-primary">
+            <span className="flex items-center justify-center gap-2">DAFTAR PENGGUNA BARU <ArrowForwardRoundedIcon sx={{ fontSize: 18 }} /></span>
           </button>
           <button
             onClick={handleGoHome}
@@ -68,7 +70,7 @@ export default function UnknownFingerprintPage() {
 
         {/* Auto-timeout indicator */}
         <div className="mt-6 flex items-center justify-center gap-2 text-ash-gray/70 text-xs">
-          <TimerIcon sx={{ fontSize: 14 }} />
+          <TimerRoundedIcon sx={{ fontSize: 14 }} />
           <span>Kembali otomatis dalam {countdown} detik</span>
         </div>
       </div>

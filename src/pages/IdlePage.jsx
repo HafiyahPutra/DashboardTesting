@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { listenAuthStatus, listenAllLockers } from '../services/firebase';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
-import BuildIcon from '@mui/icons-material/Build';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import SettingsInputHdmiIcon from '@mui/icons-material/SettingsInputHdmi';
-import CloseIcon from '@mui/icons-material/Close';
+import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
+import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
+import SettingsInputHdmiRoundedIcon from '@mui/icons-material/SettingsInputHdmiRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import MonitorHeartRoundedIcon from '@mui/icons-material/MonitorHeartRounded';
+import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
 
 const NodeBadge = ({ name, type, isOnline }) => (
   <div className="flex items-center justify-between gap-4 px-4 py-3 rounded-xl bg-midnight-void border border-dark-carbon w-full">
@@ -48,12 +50,12 @@ export default function IdlePage() {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen p-6 overflow-hidden">
-      <div className="relative z-10 w-full max-w-md p-10 text-center glass-card animate-fadeInUp mb-20">
+      <div className="relative z-10 w-full max-w-md pt-10 px-10 pb-16 text-center glass-card animate-fadeInUp mb-20">
         <div className="relative w-32 h-32 mx-auto mb-8 animate-float">
           <div className="absolute inset-0 border-4 rounded-full border-dark-carbon opacity-50 animate-pulse-ring"></div>
           <div className="absolute border-4 border-dark-carbon rounded-full inset-2 opacity-30 animate-pulse-ring" style={{ animationDelay: '0.5s' }}></div>
           <div className="relative w-full h-full bg-deep-space rounded-full flex items-center justify-center text-6xl border border-dark-carbon">
-            <FingerprintIcon sx={{ fontSize: 60, color: '#F3F3F3' }} />
+            <FingerprintRoundedIcon sx={{ fontSize: 60, color: 'inherit' }} />
           </div>
         </div>
 
@@ -75,29 +77,20 @@ export default function IdlePage() {
         </div>
       </div>
 
-      {/* Fixed Bottom Layout */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 w-full px-6">
-        {/* Navigation buttons */}
-        <div className="flex flex-wrap justify-center gap-3">
-          <Link
-            to="/simulator"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"
-          >
-            <BuildIcon sx={{ fontSize: 16 }} /> Simulator
-          </Link>
-          <Link
-            to="/admin"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"
-          >
-            <AdminPanelSettingsIcon sx={{ fontSize: 16 }} /> Admin
-          </Link>
-          <button
-            onClick={() => setShowDiagnostics(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-carbon/80 backdrop-blur-md border border-dark-carbon text-ash-gray hover:text-polar-white transition-all text-sm font-medium shadow-lg"
-          >
-            <SettingsInputHdmiIcon sx={{ fontSize: 16 }} /> Diagnostics
-          </button>
-        </div>
+      {/* Fixed Top Right Navigation */}
+      <div className="fixed top-6 right-8 z-20 flex items-center gap-3">
+        <button
+          onClick={() => setShowDiagnostics(true)}
+          className="w-12 h-12 flex items-center justify-center rounded-full bg-[#F4F5F7] text-[#1E293B] hover:bg-[#E2E8F0] transition-all"
+        >
+          <MonitorHeartRoundedIcon sx={{ fontSize: 20 }} />
+        </button>
+        <Link
+          to="/admin"
+          className="w-12 h-12 flex items-center justify-center rounded-full bg-[#F4F5F7] text-[#1E293B] hover:bg-[#E2E8F0] transition-all"
+        >
+          <PersonOutlineRoundedIcon sx={{ fontSize: 20 }} />
+        </Link>
       </div>
 
       {/* Modal Diagnostics */}
@@ -106,13 +99,13 @@ export default function IdlePage() {
           <div className="w-full max-w-sm glass-card border border-dark-carbon p-6 shadow-2xl animate-fadeInUp">
             <div className="flex justify-between items-center mb-6 border-b border-dark-carbon pb-4">
               <h2 className="text-lg font-bold text-polar-white flex items-center gap-2">
-                <SettingsInputHdmiIcon sx={{ fontSize: 20 }} /> Node Diagnostics
+                <SettingsInputHdmiRoundedIcon sx={{ fontSize: 20 }} /> Node Diagnostics
               </h2>
               <button 
                 onClick={() => setShowDiagnostics(false)}
                 className="text-ash-gray hover:text-polar-white bg-dark-carbon p-1 rounded-lg transition-colors"
               >
-                <CloseIcon sx={{ fontSize: 20 }} />
+                <CloseRoundedIcon sx={{ fontSize: 20 }} />
               </button>
             </div>
             

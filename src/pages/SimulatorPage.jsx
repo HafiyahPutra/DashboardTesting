@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
 import { getDatabase, ref, set, update, onValue, get } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
-import BuildIcon from '@mui/icons-material/Build';
-import PanToolIcon from '@mui/icons-material/PanTool';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
+import PanToolRoundedIcon from '@mui/icons-material/PanToolRounded';
+import LocalOfferRoundedIcon from '@mui/icons-material/LocalOfferRounded';
+import LockRoundedIcon from '@mui/icons-material/LockRounded';
+import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
+import FlashOnRoundedIcon from '@mui/icons-material/FlashOnRounded';
+import SyncRoundedIcon from '@mui/icons-material/SyncRounded';
+import FingerprintRoundedIcon from '@mui/icons-material/FingerprintRounded';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import SensorsRoundedIcon from '@mui/icons-material/SensorsRounded';
+import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
+import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
+import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 
 // Gunakan config yang sama dari env
 const firebaseConfig = {
@@ -40,9 +50,9 @@ export default function SimulatorPage() {
   const [autoRespondEnabled, setAutoRespondEnabled] = useState(true);
   const [logs, setLogs] = useState([]);
 
-  const addLog = (message) => {
+  const addLog = (message, IconComp = null) => {
     const time = new Date().toLocaleTimeString('id-ID');
-    setLogs((prev) => [`[${time}] ${message}`, ...prev.slice(0, 19)]);
+    setLogs((prev) => [{ time, message, IconComp }, ...prev.slice(0, 19)]);
   };
 
   // Listen to Auth System
@@ -77,13 +87,13 @@ export default function SimulatorPage() {
         // Saat command = CLOSE dan status belum LOCKED → set LOCKED
         if (autoRespondEnabled) {
           if (data.command === 'OPEN' && data.status !== 'UNLOCKED') {
-            addLog(`⚡ ${lokerId}: command=OPEN → Solenoid UNLOCK`);
+            addLog(`${lokerId}: command=OPEN → Solenoid UNLOCK`, FlashOnRoundedIcon);
             await update(ref(db, `/lockers/${lokerId}`), {
               status: 'UNLOCKED',
               updated_at: new Date().toISOString(),
             });
           } else if (data.command === 'CLOSE' && data.status !== 'LOCKED') {
-            addLog(`🔒 ${lokerId}: command=CLOSE → Solenoid LOCK`);
+            addLog(`${lokerId}: command=CLOSE → Solenoid LOCK`, LockRoundedIcon);
             await update(ref(db, `/lockers/${lokerId}`), {
               status: 'LOCKED',
               updated_at: new Date().toISOString(),
@@ -104,7 +114,7 @@ export default function SimulatorPage() {
         (id) => lockerStatuses[id]?.status === 'UNLOCKED'
       );
       if (openLockers.length > 0) {
-        addLog(`🔄 Auth IDLE — Auto-lock ${openLockers.length} loker terbuka`);
+        addLog(`Auth IDLE — Auto-lock ${openLockers.length} loker terbuka`, SyncRoundedIcon);
         openLockers.forEach(async (lokerId) => {
           await update(ref(db, `/lockers/${lokerId}`), {
             command: 'CLOSE',
@@ -118,7 +128,7 @@ export default function SimulatorPage() {
 
   // --- NODE 0: FINGERPRINT SIMULATOR ---
   const simulateAuthSuccess = async () => {
-    addLog('👆 Fingerprint: User dikenali → AUTHORIZED');
+    addLog('Fingerprint: User dikenali → AUTHORIZED', FingerprintRoundedIcon);
     await update(ref(db, '/auth_system'), {
       status: 'AUTHORIZED',
       user: 'Budi (Simulator)',
@@ -128,7 +138,7 @@ export default function SimulatorPage() {
   };
 
   const simulateAuthUnknown = async () => {
-    addLog('❌ Fingerprint: User tidak dikenali → UNKNOWN');
+    addLog('Fingerprint: User tidak dikenali → UNKNOWN', CancelRoundedIcon);
     await update(ref(db, '/auth_system'), {
       status: 'UNKNOWN',
       user: '',
@@ -138,7 +148,7 @@ export default function SimulatorPage() {
   };
 
   const simulateAuthIdle = async () => {
-    addLog('🔄 Reset ke IDLE — lock semua loker');
+    addLog('Reset ke IDLE — lock semua loker', SyncRoundedIcon);
     // Reset auth
     await update(ref(db, '/auth_system'), {
       status: 'IDLE',
@@ -164,7 +174,7 @@ export default function SimulatorPage() {
 
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
-    addLog('📝 Enrollment: Mulai proses pendaftaran sidik jari');
+    addLog('Enrollment: Mulai proses pendaftaran sidik jari', AssignmentRoundedIcon);
     await update(ref(db, '/enrollment_queue/pending'), { status: 'PLACE_FINGER_1', message: 'Tempelkan jari pertama' });
     await delay(1500);
     await update(ref(db, '/enrollment_queue/pending'), { status: 'LIFT_FINGER', message: 'Angkat jari' });
@@ -186,12 +196,12 @@ export default function SimulatorPage() {
       enrolled_at: new Date().toISOString()
     });
 
-    addLog('✅ Enrollment: Berhasil — user tersimpan');
+    addLog('Enrollment: Berhasil — user tersimpan', CheckCircleRoundedIcon);
   };
 
   const simulateEnrollmentFail = async () => {
     if (!enrollQueue || enrollQueue.status !== 'WAITING') return;
-    addLog('❌ Enrollment: Gagal membaca sensor');
+    addLog('Enrollment: Gagal membaca sensor', CancelRoundedIcon);
     await update(ref(db, '/enrollment_queue/pending'), { status: 'FAILED', message: 'Gagal membaca sensor' });
   };
 
@@ -199,7 +209,7 @@ export default function SimulatorPage() {
   const simulateScanTag = async (lokerId) => {
     if (!simulatedUid.trim()) return;
 
-    addLog(`📡 ${lokerId}: Scan tag [${simulatedUid}]`);
+    addLog(`${lokerId}: Scan tag [${simulatedUid}]`, SensorsRoundedIcon);
 
     await update(ref(db, `/lockers/${lokerId}`), {
       last_uid: simulatedUid,
@@ -222,14 +232,14 @@ export default function SimulatorPage() {
         kategori: 'Simulator',
         timestamp: new Date().toISOString()
       });
-      addLog(`📦 Barang baru terdaftar: ${simulatedUid}`);
+      addLog(`Barang baru terdaftar: ${simulatedUid}`, Inventory2RoundedIcon);
     }
   };
 
   // Force lock/unlock loker manual
   const forceLockerState = async (lokerId, command) => {
     const status = command === 'OPEN' ? 'UNLOCKED' : 'LOCKED';
-    addLog(`🔧 Force ${lokerId}: ${command} → ${status}`);
+    addLog(`Force ${lokerId}: ${command} → ${status}`, BuildRoundedIcon);
     await update(ref(db, `/lockers/${lokerId}`), {
       command,
       status,
@@ -242,7 +252,7 @@ export default function SimulatorPage() {
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-polar-white flex items-center gap-2">
-            <BuildIcon sx={{ fontSize: 32, color: '#F3F3F3' }} /> Hardware Simulator
+            <BuildRoundedIcon sx={{ fontSize: 32, color: 'inherit' }} /> Hardware Simulator
           </h1>
           <p className="text-ash-gray mt-2">
             Gunakan panel ini untuk mensimulasikan aksi perangkat keras (fingerprint & RFID/Barcode) 
@@ -254,7 +264,7 @@ export default function SimulatorPage() {
           {/* FINGERPRINT SIMULATOR */}
           <div className="bg-deep-space p-6 rounded-xl border border-dark-carbon">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-polar-white">
-              <PanToolIcon sx={{ fontSize: 24, color: '#F3F3F3' }} /> Node 0 (Fingerprint)
+              <PanToolRoundedIcon sx={{ fontSize: 24, color: 'inherit' }} /> Node 0 (Fingerprint)
             </h2>
             
             <div className="bg-midnight-void p-3 rounded-lg mb-4 text-xs font-mono text-ash-gray">
@@ -299,7 +309,7 @@ export default function SimulatorPage() {
           {/* LOKER & RFID SIMULATOR */}
           <div className="bg-deep-space p-6 rounded-xl border border-dark-carbon">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-polar-white">
-              <LocalOfferIcon sx={{ fontSize: 24, color: '#F3F3F3' }} /> Node 1, 2, 3 (Loker & Tag)
+              <LocalOfferRoundedIcon sx={{ fontSize: 24, color: 'inherit' }} /> Node 1, 2, 3 (Loker & Tag)
             </h2>
 
             {/* Loker Status Panel */}
@@ -317,8 +327,8 @@ export default function SimulatorPage() {
                     }`}>
                       <div className="mb-1">
                         {isOpen 
-                          ? <LockOpenIcon sx={{ fontSize: 20, color: '#F3F3F3' }} />
-                          : <LockIcon sx={{ fontSize: 20, color: '#949494' }} />
+                          ? <LockOpenRoundedIcon sx={{ fontSize: 20, color: 'inherit' }} />
+                          : <LockRoundedIcon sx={{ fontSize: 20, color: 'inherit' }} />
                         }
                       </div>
                       <p className="text-xs font-bold text-polar-white">{lokerId.replace('_', ' ').toUpperCase()}</p>
@@ -403,24 +413,26 @@ export default function SimulatorPage() {
         {/* Activity Log */}
         <div className="mt-6 bg-deep-space p-6 rounded-xl border border-dark-carbon">
           <h2 className="text-lg font-bold text-polar-white mb-3 flex items-center gap-2">
-            📋 Log Aktivitas Simulator
+            <ListAltRoundedIcon sx={{ fontSize: 24 }} /> Log Aktivitas Simulator
           </h2>
-          <div className="bg-midnight-void rounded-lg p-4 max-h-[200px] overflow-y-auto font-mono text-xs">
+          <div className="bg-midnight-void rounded-lg p-4 max-h-50 overflow-y-auto font-mono text-xs">
             {logs.length === 0 ? (
               <p className="text-ash-gray/70">Belum ada aktivitas. Klik tombol di atas untuk memulai simulasi.</p>
             ) : (
               logs.map((log, i) => (
-                <p key={i} className={`${i === 0 ? 'text-polar-white' : 'text-ash-gray'} mb-1`}>
-                  {log}
-                </p>
+                <div key={i} className={`flex items-start gap-2 ${i === 0 ? 'text-polar-white' : 'text-ash-gray'} mb-1.5`}>
+                  <span className="text-slate-ui font-mono shrink-0">[{log.time}]</span> 
+                  {log.IconComp && <span className="mt-0.5 shrink-0"><log.IconComp sx={{ fontSize: 14 }} /></span>}
+                  <span>{log.message}</span>
+                </div>
               ))
             )}
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <a href="/" target="_blank" rel="noreferrer" className="text-polar-white hover:underline">
-            Buka Web App di Tab Baru ↗
+          <a href="/" target="_blank" rel="noreferrer" className="text-polar-white hover:underline flex items-center justify-center gap-1">
+            Buka Web App di Tab Baru <OpenInNewRoundedIcon sx={{ fontSize: 16 }} />
           </a>
         </div>
       </div>

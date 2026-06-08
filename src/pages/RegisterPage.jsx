@@ -6,21 +6,22 @@ import {
   clearEnrollmentQueue,
   setAuthStatusIdle,
 } from "../services/firebase";
-import LockIcon from '@mui/icons-material/Lock';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import PanToolIcon from '@mui/icons-material/PanTool';
-import SettingsIcon from '@mui/icons-material/Settings';
+import LockRoundedIcon from '@mui/icons-material/LockRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import HourglassEmptyRoundedIcon from '@mui/icons-material/HourglassEmptyRounded';
+import PanToolRoundedIcon from '@mui/icons-material/PanToolRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 const STATUS_INFO = {
-  WAITING: { label: "Menunggu respons sensor...", icon: HourglassEmptyIcon, color: "text-polar-white", step: 2 },
-  PLACE_FINGER_1: { label: "Tempelkan jari ke sensor (scan 1/2)", icon: PanToolIcon, color: "text-polar-white", step: 2 },
-  LIFT_FINGER: { label: "Angkat jari dari sensor", icon: PanToolIcon, color: "text-polar-white", step: 2 },
-  PLACE_FINGER_2: { label: "Tempelkan jari lagi (scan 2/2)", icon: PanToolIcon, color: "text-polar-white", step: 3 },
-  PROCESSING: { label: "Menyimpan data sidik jari...", icon: SettingsIcon, color: "text-polar-white", step: 3 },
-  SUCCESS: { label: "Pendaftaran berhasil!", icon: CheckCircleIcon, color: "text-neon-green", step: 4 },
-  FAILED: { label: "Pendaftaran gagal. Silakan coba lagi.", icon: ErrorIcon, color: "text-red-400", step: 0 },
+  WAITING: { label: "Menunggu respons sensor...", icon: HourglassEmptyRoundedIcon, color: "text-polar-white", step: 2 },
+  PLACE_FINGER_1: { label: "Tempelkan jari ke sensor (scan 1/2)", icon: PanToolRoundedIcon, color: "text-polar-white", step: 2 },
+  LIFT_FINGER: { label: "Angkat jari dari sensor", icon: PanToolRoundedIcon, color: "text-polar-white", step: 2 },
+  PLACE_FINGER_2: { label: "Tempelkan jari lagi (scan 2/2)", icon: PanToolRoundedIcon, color: "text-polar-white", step: 3 },
+  PROCESSING: { label: "Menyimpan data sidik jari...", icon: SettingsRoundedIcon, color: "text-polar-white", step: 3 },
+  SUCCESS: { label: "Pendaftaran berhasil!", icon: CheckCircleRoundedIcon, color: "text-neon-green", step: 4 },
+  FAILED: { label: "Pendaftaran gagal. Silakan coba lagi.", icon: ErrorRoundedIcon, color: "text-red-400", step: 0 },
 };
 
 const STEPS = ["Data Diri", "Scan Jari 1", "Scan Jari 2", "Selesai"];
@@ -113,7 +114,7 @@ export default function RegisterPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto bg-dark-carbon rounded-2xl flex items-center justify-center mb-4 border border-dark-carbon shadow-lg">
-            <LockIcon sx={{ fontSize: 32, color: '#F3F3F3' }} />
+            <LockRoundedIcon sx={{ fontSize: 32, color: 'inherit' }} />
           </div>
           <h1 className="text-2xl font-bold text-polar-white tracking-tight">Daftar Sidik Jari</h1>
           <p className="text-ash-gray text-sm mt-1">Sistem Inventaris IoT</p>
@@ -134,7 +135,7 @@ export default function RegisterPage() {
                   ${done ? "bg-amber-glow text-midnight-void" : 
                     active ? "bg-amber-glow text-midnight-void border-2 border-polar-white" : 
                              "bg-dark-carbon text-ash-gray border border-dark-carbon"}`}>
-                  {done ? "✓" : idx}
+                  {done ? <CheckCircleRoundedIcon sx={{ fontSize: 18 }} /> : idx}
                 </div>
                 <span className={`text-xs mt-2 font-medium ${active ? "text-polar-white" : done ? "text-slate-ui" : "text-ash-gray/70"}`}>
                   {label}
@@ -206,7 +207,7 @@ export default function RegisterPage() {
                 Batal
               </button>
               <button type="submit" disabled={loading} className="btn-primary flex-[2]">
-                {loading ? "Memproses..." : "Lanjut Scan →"}
+                {loading ? "Memproses..." : <span className="flex items-center gap-2 justify-center">Lanjut Scan <ArrowForwardRoundedIcon sx={{ fontSize: 18 }} /></span>}
               </button>
             </div>
           </form>
@@ -218,7 +219,7 @@ export default function RegisterPage() {
             <div className="relative w-32 h-32 mx-auto mb-8">
               <div className="absolute inset-0 rounded-full bg-amber-glow/20 animate-pulse-ring"></div>
               <div className="relative w-full h-full bg-dark-carbon rounded-full border-2 border-amber-glow/50 flex items-center justify-center z-10">
-                {statusInfo?.icon ? <statusInfo.icon sx={{ fontSize: 50, color: '#F3F3F3' }} /> : <PanToolIcon sx={{ fontSize: 50, color: '#F3F3F3' }} />}
+                {statusInfo?.icon ? <statusInfo.icon sx={{ fontSize: 50, color: 'inherit' }} /> : <PanToolRoundedIcon sx={{ fontSize: 50, color: 'inherit' }} />}
               </div>
             </div>
 
@@ -252,7 +253,7 @@ export default function RegisterPage() {
         {step === 4 && enrollData?.status === "SUCCESS" && (
           <div className="glass-card p-8 text-center border-amber-glow/30 border">
             <div className="w-20 h-20 mx-auto bg-neon-green/15 rounded-full flex items-center justify-center mb-6">
-              <CheckCircleIcon sx={{ fontSize: 48, color: '#00AC5C' }} />
+              <CheckCircleRoundedIcon sx={{ fontSize: 48, color: '#00AC5C' }} />
             </div>
             <h2 className="text-2xl font-bold text-neon-green mb-2">Berhasil!</h2>
             <p className="text-slate-ui mb-6">Sidik jari <span className="text-polar-white font-semibold">{form.name}</span> telah tersimpan.</p>
@@ -270,7 +271,7 @@ export default function RegisterPage() {
 
             <div className="space-y-3">
               <button onClick={handleEnterSystem} className="w-full btn-success">
-                Masuk ke Sistem →
+                <span className="flex items-center justify-center gap-2">Masuk ke Sistem <ArrowForwardRoundedIcon sx={{ fontSize: 18 }} /></span>
               </button>
               <button onClick={handleReset} className="w-full btn-ghost text-sm">
                 Daftar Pengguna Lain

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { setAuthStatusIdle, closeAllLockers } from '../services/firebase';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 
 export default function SuccessPage() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function SuccessPage() {
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
       <div className="glass-card max-w-md w-full p-8 text-center relative z-10 border-amber-glow/30 animate-fadeInUp">
         <div className="w-24 h-24 mx-auto bg-amber-glow/15 rounded-full flex items-center justify-center border-2 border-amber-glow mb-6 animate-pulse-ring">
-          <CheckCircleIcon sx={{ fontSize: 60, color: '#00AC5C' }} />
+          <CheckCircleRoundedIcon sx={{ fontSize: 60, color: '#00AC5C' }} />
         </div>
 
         <h1 className="text-2xl font-bold text-polar-white mb-2 tracking-tight">
@@ -68,7 +68,7 @@ export default function SuccessPage() {
             <div className="absolute inset-0 rounded-full border-2 border-amber-glow/20 animate-ping"></div>
           </div>
           <div className="mt-2 text-ash-gray/70">
-            <AutorenewIcon sx={{ fontSize: 18, animation: 'spin 1s linear infinite', '@keyframes spin': { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } } }} />
+            <AutorenewRoundedIcon sx={{ fontSize: 18, animation: 'spin 1s linear infinite', '@keyframes spin': { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } } }} />
           </div>
         </div>
       </div>

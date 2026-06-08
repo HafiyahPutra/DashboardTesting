@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { listenMasterBarang, openLocker } from '../services/firebase';
-import OutputIcon from '@mui/icons-material/Output';
-import Inventory2Icon from '@mui/icons-material/Inventory2';
-import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import OutputRoundedIcon from '@mui/icons-material/OutputRounded';
+import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
+import HomeRepairServiceRoundedIcon from '@mui/icons-material/HomeRepairServiceRounded';
+import LocalOfferRoundedIcon from '@mui/icons-material/LocalOfferRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 export default function BorrowPage() {
   const [barang, setBarang] = useState({});
@@ -44,9 +46,9 @@ export default function BorrowPage() {
   };
 
   const lockers = [
-    { id: 'loker_01', name: 'LOKER 1', type: 'RFID LF', icon: <Inventory2Icon /> },
-    { id: 'loker_02', name: 'LOKER 2', type: 'RFID HF', icon: <HomeRepairServiceIcon /> },
-    { id: 'loker_03', name: 'LOKER 3', type: 'Barcode', icon: <LocalOfferIcon /> }
+    { id: 'loker_01', name: 'LOKER 1', type: 'RFID LF', icon: <Inventory2RoundedIcon /> },
+    { id: 'loker_02', name: 'LOKER 2', type: 'RFID HF', icon: <HomeRepairServiceRoundedIcon /> },
+    { id: 'loker_03', name: 'LOKER 3', type: 'Barcode', icon: <LocalOfferRoundedIcon /> }
   ];
 
   return (
@@ -54,11 +56,11 @@ export default function BorrowPage() {
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <button onClick={() => navigate('/menu')} className="w-12 h-12 rounded-xl bg-dark-carbon text-polar-white flex items-center justify-center hover:bg-dark-carbon/80 transition-colors border border-dark-carbon">
-            ←
+            <ArrowBackRoundedIcon sx={{ fontSize: 24 }} />
           </button>
           <div>
             <h1 className="text-2xl font-bold text-polar-white tracking-tight flex items-center gap-2">
-              <span className="text-polar-white flex items-center"><OutputIcon fontSize="large" /></span> PINJAM BARANG
+              <span className="text-polar-white flex items-center"><OutputRoundedIcon fontSize="large" /></span> PINJAM BARANG
             </h1>
             <p className="text-ash-gray text-sm">Pilih barang yang tersedia dari loker</p>
           </div>
@@ -77,7 +79,7 @@ export default function BorrowPage() {
                 </div>
               </div>
               
-              <div className="p-2 flex-1 overflow-y-auto max-h-[400px]">
+              <div className="p-2 flex-1 overflow-y-auto max-h-100">
                 <ul className="space-y-2">
                   {Object.values(barang)
                     .filter(item => item.loker_assignment === loker.id)
@@ -137,18 +139,18 @@ export default function BorrowPage() {
             {/* Item Info */}
             <div className="flex items-center gap-4 w-full md:w-auto">
               <div className="w-12 h-12 bg-amber-glow/15 rounded-xl flex items-center justify-center text-polar-white shrink-0">
-                <Inventory2Icon />
+                <Inventory2RoundedIcon />
               </div>
               <div className="flex-1">
                 <p className="text-ash-gray text-xs uppercase tracking-wider font-semibold">Barang Terpilih</p>
-                <p className="text-polar-white font-bold truncate max-w-[200px]">{selected?.nama}</p>
+                <p className="text-polar-white font-bold truncate max-w-50">{selected?.nama}</p>
                 <p className="text-polar-white text-xs">{selected?.loker_assignment?.replace('_', ' ').toUpperCase()}</p>
               </div>
             </div>
             
             {/* Duration Selector */}
             <div className="flex items-center gap-3 w-full md:w-auto bg-deep-space/50 p-2 rounded-xl border border-dark-carbon">
-              <AccessTimeIcon sx={{ fontSize: 20, color: '#949494' }} />
+              <AccessTimeRoundedIcon sx={{ fontSize: 20, color: 'inherit' }} />
               <div className="flex flex-col">
                 <label className="text-[10px] text-ash-gray uppercase font-semibold">Batas Waktu</label>
                 <div className="flex gap-2">
@@ -187,7 +189,7 @@ export default function BorrowPage() {
               disabled={loading}
               className="btn-primary whitespace-nowrap w-full md:w-auto"
             >
-              {loading ? 'Membuka...' : 'Buka Loker & Pinjam →'}
+              {loading ? 'Membuka...' : <span className="flex items-center gap-2">Buka Loker & Pinjam <ArrowForwardRoundedIcon sx={{ fontSize: 18 }} /></span>}
             </button>
           </div>
         </div>
