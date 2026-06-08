@@ -644,8 +644,8 @@ export default function AdminPage() {
             <p className="mt-1 text-[13px] text-ash-gray">Sistem Inventaris IoT & Autentikasi Biometrik</p>
           </div>
           <div className="flex gap-3">
-            <button onClick={() => window.open('/', '_blank')} className="btn-ghost">Ke Aplikasi User</button>
-            <button onClick={() => window.open('/simulator', '_blank')} className="btn-ghost">Simulator</button>
+            <a href="/" target="_blank" rel="noopener noreferrer" className="btn-ghost inline-flex items-center">Ke Aplikasi User</a>
+            <a href="/simulator" target="_blank" rel="noopener noreferrer" className="btn-ghost inline-flex items-center">Simulator</a>
             <button onClick={() => setIsLoggedIn(false)} className="btn-danger">Logout</button>
           </div>
         </header>
